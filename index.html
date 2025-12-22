@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionnaire de Concours de Pétanque</title>
+    <meta name="description"
+        content="Application de gestion de concours de pétanque à la mêlée avec tirage au sort et classement automatique">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto;">
+                <div style="flex: 1;"></div>
+                <div style="text-align: center; flex: 2;">
+                    <h1>🎯 Concours de Pétanque</h1>
+                    <p class="subtitle">Gestion de tournoi à la mêlée</p>
+                </div>
+                <div style="flex: 1; text-align: right;">
+                    <button id="new-tournament-btn" class="btn btn-secondary"
+                        style="display: none; padding: 0.75rem 1.5rem; font-size: 0.875rem;">
+                        🆕 Nouveau Concours
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Configuration Section -->
+        <section id="config-section" class="card">
+            <h2>⚙️ Configuration du Tournoi</h2>
+            <div class="config-grid">
+                <div class="form-group">
+                    <label for="tournament-type">Type de concours</label>
+                    <select id="tournament-type">
+                        <option value="doublette">Doublette (2 joueurs)</option>
+                        <option value="triplette">Triplette (3 joueurs)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="num-rounds">Nombre de parties</label>
+                    <input type="number" id="num-rounds" min="1" max="20" value="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="first-terrain">Numéro du premier terrain</label>
+                    <input type="number" id="first-terrain" min="1" max="100" value="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="csv-upload">Fichier CSV des joueurs</label>
+                    <input type="file" id="csv-upload" accept=".csv">
+                </div>
+            </div>
+
+            <div class="form-group mt-1" style="max-width: 400px; margin-left: auto; margin-right: auto;">
+                <label
+                    style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; justify-content: center;">
+                    <input type="checkbox" id="skip-terrain" style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
+                    <span style="text-transform: none; font-size: 1rem; color: var(--text-primary);">Jouer 1 terrain sur
+                        2</span>
+                </label>
+            </div>
+
+            <div class="mt-2 text-center">
+                <button id="start-tournament-btn" class="btn" disabled>
+                    🚀 Démarrer le Tournoi
+                </button>
+            </div>
+
+            <div id="player-preview" class="mt-2 hidden">
+                <h3>Joueurs inscrits (<span id="player-count">0</span>)</h3>
+                <div id="player-list" class="glass-panel"></div>
+            </div>
+        </section>
+
+        <!-- Tournament Section -->
+        <section id="tournament-section" class="hidden">
+            <!-- Tabs Navigation -->
+            <div class="tabs" id="tabs-container"></div>
+
+            <!-- Tab Contents -->
+            <div id="tab-contents"></div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
