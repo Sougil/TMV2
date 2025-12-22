@@ -1,2 +1,13 @@
 # TMV2
 Gestion concours de pétanque à la mêlée
+Fonctionnalités Principales :
+Configuration flexible : Doublette/Triplette, nombre de parties personnalisable
+Gestion des terrains : Numéro de départ + option "1 terrain sur 2"
+Import CSV : Chargement facile des joueurs (une ligne par joueur au format NOM,PRENOM)
+Tirage au sort intelligent : Partenaires et adversaires différents à chaque partie
+Deux modes d'affichage :
+Vue détaillée : Gestion complète avec saisie des scores
+Vue ultra-condensée : Visualisation compacte en lecture seule (5-6 matchs/ligne)
+Suivi des matchs : Sélection du gagnant + saisie des scores
+Classement automatique : Par victoires, goal average, puis ordre alphabétique
+Persistance : Sauvegarde automatique + bouton "Nouveau Concours"
