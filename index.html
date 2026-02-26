@@ -18,7 +18,18 @@
         <header>
             <div
                 style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto;">
-                <div style="flex: 1;"></div>
+                <div style="flex: 1; display: flex; gap: 0.5rem; align-items: center;">
+                    <button id="notice-btn" class="btn btn-outline" onclick="document.getElementById('notice-modal').classList.add('active')"
+                        style="padding: 0.6rem 1.1rem; font-size: 0.85rem;">
+                        📖 Notice
+                    </button>
+                    <a id="download-csv-btn" class="btn btn-outline"
+                        href="https://sougil.github.io/TMV2/joueurs_exemple.csv"
+                        download="joueurs_exemple.csv"
+                        style="padding: 0.6rem 1.1rem; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        ⬇️ Exemple CSV
+                    </a>
+                </div>
                 <div style="text-align: center; flex: 2;">
                     <h1>🎯 Concours de Pétanque</h1>
                     <p class="subtitle">Gestion de tournoi à la mêlée</p>
@@ -89,6 +100,92 @@
             <!-- Tab Contents -->
             <div id="tab-contents"></div>
         </section>
+    </div>
+
+    <!-- Notice Modal -->
+    <div id="notice-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>📖 Comment utiliser l'application</h2>
+                <button class="modal-close" onclick="document.getElementById('notice-modal').classList.remove('active')" aria-label="Fermer">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="notice-step">
+                    <div class="notice-step-icon">1</div>
+                    <div>
+                        <h3>Préparer la liste des joueurs (fichier CSV)</h3>
+                        <p>Créez un fichier <code>.csv</code> avec un joueur par ligne, au format&nbsp;:</p>
+                        <pre>Nom,Prénom
+Dupont,Jean
+Martin,Sophie</pre>
+                        <p>Le séparateur peut être une <strong>virgule</strong> ou un <strong>point-virgule</strong>.
+                        Téléchargez le <strong>fichier exemple</strong> via le bouton « ⬇️ Exemple CSV » pour partir d'une base prête à l'emploi.</p>
+                    </div>
+                </div>
+
+                <div class="notice-step">
+                    <div class="notice-step-icon">2</div>
+                    <div>
+                        <h3>Configurer le tournoi</h3>
+                        <ul>
+                            <li><strong>Type de concours</strong> : Doublette (2 joueurs/équipe) ou Triplette (3 joueurs/équipe).</li>
+                            <li><strong>Nombre de parties</strong> : le nombre de rondes à jouer (ex. 5).</li>
+                            <li><strong>Numéro du premier terrain</strong> : numérotation de départ des terrains.</li>
+                            <li><strong>Jouer 1 terrain sur 2</strong> : cochez cette case pour sauter un terrain entre chaque match (terrains numérotés en impair ou en pair).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="notice-step">
+                    <div class="notice-step-icon">3</div>
+                    <div>
+                        <h3>Importer les joueurs</h3>
+                        <p>Cliquez sur le champ <strong>Fichier CSV des joueurs</strong> et sélectionnez votre fichier. La liste des joueurs inscrits s'affiche aussitôt pour vérification.</p>
+                    </div>
+                </div>
+
+                <div class="notice-step">
+                    <div class="notice-step-icon">4</div>
+                    <div>
+                        <h3>Démarrer le tournoi</h3>
+                        <p>Cliquez sur <strong>🚀 Démarrer le Tournoi</strong>. Le tirage au sort est effectué automatiquement pour chaque partie en limitant au maximum les répétitions de partenaires et d'adversaires.</p>
+                    </div>
+                </div>
+
+                <div class="notice-step">
+                    <div class="notice-step-icon">5</div>
+                    <div>
+                        <h3>Saisir les scores &amp; résultats</h3>
+                        <p>Pour chaque match, cliquez sur l'équipe gagnante et renseignez les scores. Deux vues sont disponibles :</p>
+                        <ul>
+                            <li><strong>📋 Vue détaillée</strong> : affiche les noms complets et les champs de saisie des scores.</li>
+                            <li><strong>📊 Vue condensée</strong> : vue compacte affichant initiales + nom et scores en lecture rapide.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="notice-step">
+                    <div class="notice-step-icon">6</div>
+                    <div>
+                        <h3>Consulter le classement</h3>
+                        <p>L'onglet <strong>🏆 Classement</strong> affiche le classement final trié par :
+                        <strong>Victoires</strong> → <strong>Goal Average</strong> (points marqués moins points encaissés) → ordre alphabétique en cas d'égalité parfaite.</p>
+                    </div>
+                </div>
+
+                <div class="notice-step">
+                    <div class="notice-step-icon">💾</div>
+                    <div>
+                        <h3>Sauvegarde automatique</h3>
+                        <p>Toutes les données (joueurs, parties, scores) sont <strong>sauvegardées automatiquement</strong> dans le navigateur (localStorage). Vous pouvez fermer la page et retrouver votre tournoi à la prochaine ouverture.</p>
+                        <p>Le bouton <strong>🆕 Nouveau Concours</strong> permet de repartir de zéro (après confirmation).</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="document.getElementById('notice-modal').classList.remove('active')">Fermer</button>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
