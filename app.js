@@ -553,7 +553,14 @@ class TournamentManager {
             match.scoreTeam2 = scoreValue;
         }
 
-        this.saveToLocalStorage();
+        // Si le score saisi est 13, désigner automatiquement cette équipe comme gagnante
+        if (scoreValue === 13) {
+            match.winner = team;
+            this.saveToLocalStorage();
+            this.refreshMatch(roundIndex, matchIndex);
+        } else {
+            this.saveToLocalStorage();
+        }
     }
 
     refreshMatch(roundIndex, matchIndex) {
