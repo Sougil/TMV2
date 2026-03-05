@@ -556,18 +556,44 @@ class TournamentManager {
         // Si le score saisi est 13, désigner automatiquement cette équipe comme gagnante
         if (scoreValue === 13) {
             match.winner = team;
-            this.saveToLocalStorage();
-            this.refreshMatch(roundIndex, matchIndex);
-        } else {
-            this.saveToLocalStorage();
+        } else if (match.winner === team && scoreValue !== null && scoreValue < 13) {
+            // Si c'était l'équipe gagnante mais que le score n'est plus 13, on retire le statut de gagnant
+            match.winner = null;
         }
+
+        this.saveToLocalStorage();
+        this.refreshMatch(roundIndex, matchIndex);
     }
 
     refreshMatch(roundIndex, matchIndex) {
         const match = this.rounds[roundIndex].matches[matchIndex];
         const matchElement = document.getElementById(`match-${roundIndex}-${matchIndex}`);
-        if (matchElement) {
+
+        if (!matchElement) return;
+
+        // Si on est en vue condensée, on remplace tout (pas d'input focus à préserver)
+        if (this.viewMode === 'condensed') {
             matchElement.outerHTML = this.generateMatchHTML(match, roundIndex, matchIndex);
+            return;
+        }
+
+        // Vue détaillée : mise à jour sélective pour préserver le focus et la navigation au clavier (TAB)
+        const isCompleted = match.winner !== null;
+        matchElement.classList.toggle('completed', isCompleted);
+
+        const teams = matchElement.querySelectorAll('.team');
+        if (teams.length >= 2) {
+            teams[0].classList.toggle('winner', match.winner === 1);
+            teams[1].classList.toggle('winner', match.winner === 2);
+        }
+
+        const inputs = matchElement.querySelectorAll('input[type="number"]');
+        if (inputs.length >= 2) {
+            const val1 = match.scoreTeam1 ?? '';
+            const val2 = match.scoreTeam2 ?? '';
+            // Mise à jour uniquement si nécessaire pour éviter des effets de bord sur l'input actif
+            if (inputs[0].value !== val1.toString()) inputs[0].value = val1;
+            if (inputs[1].value !== val2.toString()) inputs[1].value = val2;
         }
     }
 
