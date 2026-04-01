@@ -324,13 +324,18 @@ class TournamentManager {
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h2 style="margin: 0;">Partie ${round.roundNumber}</h2>
                     <div class="view-toggle-container">
-                        <button class="view-toggle-btn ${this.viewMode === 'detailed' ? 'active' : ''}" 
+                        <button class="view-toggle-btn ${this.viewMode === 'detailed' ? 'active' : ''}"
                                 onclick="tournamentManager.toggleView('detailed', ${roundIndex})">
                             📋 Vue détaillée
                         </button>
-                        <button class="view-toggle-btn ${this.viewMode === 'condensed' ? 'active' : ''}" 
+                        <button class="view-toggle-btn ${this.viewMode === 'condensed' ? 'active' : ''}"
                                 onclick="tournamentManager.toggleView('condensed', ${roundIndex})">
                             📊 Vue condensée
+                        </button>
+                        <button class="view-toggle-btn"
+                                onclick="tournamentManager.printRound(${roundIndex})"
+                                title="Imprimer les rencontres de cette partie">
+                            🖨️ Imprimer
                         </button>
                     </div>
                 </div>
@@ -491,6 +496,64 @@ class TournamentManager {
                 </table>
             </div>
         `;
+    }
+
+    printRound(roundIndex) {
+        const round = this.rounds[roundIndex];
+
+        const matchRows = round.matches.map(match => {
+            const team1Names = match.team1.map(p => p.fullName).join(' / ');
+            const team2Names = match.team2.map(p => p.fullName).join(' / ');
+            return `
+                <tr>
+                    <td class="col-terrain">T${match.terrainNumber}</td>
+                    <td class="col-team">${team1Names}</td>
+                    <td class="col-vs">vs</td>
+                    <td class="col-team">${team2Names}</td>
+                </tr>`;
+        }).join('');
+
+        const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Partie ${round.roundNumber} — Concours de Pétanque</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; color: #000; background: #fff; padding: 1.2cm 1.5cm; }
+  h1 { font-size: 15pt; margin-bottom: 0.15cm; }
+  h2 { font-size: 12pt; color: #555; font-weight: normal; margin-bottom: 0.7cm; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #e8e8e8; padding: 5px 8px; text-align: left; border: 1px solid #999; font-size: 9.5pt; text-transform: uppercase; letter-spacing: 0.3px; }
+  td { padding: 6px 8px; border: 1px solid #ccc; vertical-align: middle; }
+  tr:nth-child(even) td { background: #f6f6f6; }
+  .col-terrain { text-align: center; font-weight: bold; width: 3.5em; color: #333; }
+  .col-vs { text-align: center; width: 3em; color: #888; font-style: italic; }
+  .col-team { width: 46%; }
+</style>
+</head>
+<body>
+<h1>🎯 Concours de Pétanque</h1>
+<h2>Partie ${round.roundNumber}</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Terrain</th>
+      <th>Équipe 1</th>
+      <th></th>
+      <th>Équipe 2</th>
+    </tr>
+  </thead>
+  <tbody>${matchRows}</tbody>
+</table>
+</body>
+</html>`;
+
+        const win = window.open('', '_blank');
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        win.print();
     }
 
     toggleView(mode, roundIndex) {
